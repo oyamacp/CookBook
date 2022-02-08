@@ -34,4 +34,24 @@ public class Rendimento {
                 ", tipo=" + tipo +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rendimento that = (Rendimento) o;
+
+        if (minimo != that.minimo) return false;
+        if (maximo != that.maximo) return false;
+        return tipo == that.tipo;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = minimo;
+        result = 31 * result + maximo;
+        result = 31 * result + (tipo != null ? tipo.hashCode() : 0);
+        return result;
+    }
 }

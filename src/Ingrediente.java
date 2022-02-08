@@ -29,4 +29,19 @@ public class Ingrediente {
                 ", tipo=" + tipo +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Ingrediente that = (Ingrediente) o;
+
+        return nome.equals(that.nome);
+    }
+
+    @Override
+    public int hashCode() {
+        return nome.hashCode();
+    }
 }

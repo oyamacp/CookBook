@@ -64,4 +64,19 @@ public class Receita {
                 ", preparo=" + preparo +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Receita receita = (Receita) o;
+
+        return nome != null ? nome.equals(receita.nome) : receita.nome == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return nome != null ? nome.hashCode() : 0;
+    }
 }
