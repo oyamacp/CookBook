@@ -1,3 +1,7 @@
+package br.com.letscode.cookbook.controller;
+
+import br.com.letscode.cookbook.domain.Receita;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

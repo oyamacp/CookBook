@@ -1,3 +1,5 @@
+package br.com.letscode.cookbook.enums;
+
 public enum TipoMedida {
     UNIDADE,
     GRAMA,

@@ -1,3 +1,7 @@
+package br.com.letscode.cookbook.domain;
+
+import br.com.letscode.cookbook.enums.Categoria;
+
 import java.util.List;
 
 public class Receita {
@@ -55,7 +59,7 @@ public class Receita {
 
     @Override
     public String toString() {
-        return "Receita{" +
+        return "br.com.letscode.cookbook.domain.Receita{" +
                 "nome='" + nome + '\'' +
                 ", categoria=" + categoria +
                 ", tempoPreparo=" + tempoPreparo +

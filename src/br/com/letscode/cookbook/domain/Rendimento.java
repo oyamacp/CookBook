@@ -1,3 +1,7 @@
+package br.com.letscode.cookbook.domain;
+
+import br.com.letscode.cookbook.enums.TipoRendimento;
+
 public class Rendimento {
     private int minimo;
     private int maximo;
@@ -28,7 +32,7 @@ public class Rendimento {
 
     @Override
     public String toString() {
-        return "Rendimento{" +
+        return "br.com.letscode.cookbook.domain.Rendimento{" +
                 "minimo=" + minimo +
                 ", maximo=" + maximo +
                 ", tipo=" + tipo +

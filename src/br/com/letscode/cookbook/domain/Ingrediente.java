@@ -1,3 +1,7 @@
+package br.com.letscode.cookbook.domain;
+
+import br.com.letscode.cookbook.enums.TipoMedida;
+
 public class Ingrediente {
     private String nome;
     private double quantidade;
@@ -23,7 +27,7 @@ public class Ingrediente {
 
     @Override
     public String toString() {
-        return "Ingrediente{" +
+        return "br.com.letscode.cookbook.domain.Ingrediente{" +
                 "nome='" + nome + '\'' +
                 ", quantidade=" + quantidade +
                 ", tipo=" + tipo +
