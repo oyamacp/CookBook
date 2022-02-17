@@ -45,7 +45,7 @@ public class CatalogoView {
             options[5] = "L";
         }
 
-        sb.append("#").append(" #".repeat(48)).append("#%n");
+        sb.append("  # ").append("# ".repeat(48)).append("%n");
         sb.append("  X : Sair  %n");
         options[6] = "X";
         sb.append("#".repeat(100)).append("%n");
@@ -186,18 +186,9 @@ public class CatalogoView {
     }
 
     public void view() {
-        String tela = "";
         do {
-            if (ative == null) {
-                //Se NÃO estiver com uma receita ativa, mostra mensagem.
-                tela = "Nenhuma receita encontrada!";
-            } else {
-                //Se estiver com uma receita ativa, continua.
-                //Monta o layout da tela com os dados da receita.
-                tela = ative.toString();
-            }
             //Exibe o layout montado.
-            System.out.println(tela);
+            new ReceitaView(ative).fullView(System.out);
             //Exibe o menu de opções.
         } while (showMenu());
     }
