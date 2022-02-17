@@ -2,6 +2,7 @@ package br.com.letscode.cookbook.view;
 
 import br.com.letscode.cookbook.controller.Catalogo;
 import br.com.letscode.cookbook.domain.Receita;
+import br.com.letscode.cookbook.enums.Categoria;
 
 import java.util.Locale;
 
@@ -131,18 +132,57 @@ public class CatalogoView {
     private void edit() {
         //Se NÃO estiver com uma receita ativa, mostra mensagem.
         //Se estiver com uma receita ativa, abra a tela de edição.
-//        view();
+        Receita nova = new EditReceitaView(ative).edit();
+        if (nova != null) {
+            controller.del(ative.getNome());
+            controller.add(nova);
+            //Torna a nova receita a ativa.
+            ative = nova;
+            currentIndex = 0;
+        }
     }
 
     private void add() {
         //Capturar o nome da receita.
-        //Procura no Catalogo a receita com o mesmo nome.
-        //Se encontrar, mostra mensagem.
-        //Se NÃO encontrar continua.
-        //Capturar dados da nova receita.
-        //Cria uma nova receita
-        //Passa a receita para o Catalogo adicionar.
-        //Torna a nova receita a ativa.
+        String name = ConsoleUtils.getUserInput("Qual o nome da nova receita?");
+        if (!name.isBlank()) {
+            //Procura no Catalogo a receita com o mesmo nome.
+            Receita other = controller.getReceita(name);
+            //Se encontrar, mostra mensagem.
+            if (other != null) {
+                String opcao = ConsoleUtils.getUserOption("Receita já existente!%nVocê deseja visualizar?%nS - Sim   N - Não", "S", "N");
+                //Se confirmar, solicita ao Catalogo apagar a receita.
+                if (opcao.equalsIgnoreCase("S")) {
+                    ative = other;
+                }
+            } else {
+                //Se NÃO encontrar continua.
+                //Capturar dados da nova receita.
+                StringBuilder sb = new StringBuilder("Qual a categoria da nova receita?\n");
+                String[] options = new String[Categoria.values().length];
+                for (int i = 0; i < options.length; i++) {
+                    options[i] = String.valueOf(i);
+                    sb.append(String.format("%d - %s%n", i, Categoria.values()[i]));
+                }
+                String opcao = ConsoleUtils.getUserOption(sb.toString(), options);
+                Categoria categoria = null;
+                for (int i = 0; i < options.length; i++) {
+                    if (opcao.equalsIgnoreCase(options[i])) {
+                        categoria = Categoria.values()[i];
+                        break;
+                    }
+                }
+                //Cria uma nova receita.
+                Receita nova = new EditReceitaView(new Receita(name, categoria)).edit();
+                if (nova != null) {
+                    //Passa a receita para o Catalogo adicionar.
+                    controller.add(nova);
+                    //Torna a nova receita a ativa.
+                    ative = nova;
+                    currentIndex = 0;
+                }
+            }
+        }
     }
 
     public void view() {
