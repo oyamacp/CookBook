@@ -2,6 +2,7 @@ package br.com.letscode.cookbook.domain;
 
 import br.com.letscode.cookbook.enums.Categoria;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Receita {
@@ -15,6 +16,15 @@ public class Receita {
     public Receita(String nome, Categoria categoria) {
         this.nome = nome;
         this.categoria = categoria;
+    }
+
+    public Receita(Receita origem) {
+        this.nome = origem.nome;
+        this.categoria = origem.categoria;
+        this.tempoPreparo = origem.tempoPreparo;
+        this.rendimento = origem.rendimento;
+        this.ingredientes = new ArrayList<>(origem.ingredientes);
+        this.preparo = new ArrayList<>(origem.preparo);
     }
 
     public String getNome() {
