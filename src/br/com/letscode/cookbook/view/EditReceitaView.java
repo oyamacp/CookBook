@@ -6,10 +6,15 @@ public class EditReceitaView {
     private Receita receita;
 
     public EditReceitaView(Receita receita) {
-        this.receita = receita;
+        this.receita = new Receita(receita);
     }
 
     public Receita edit() {
-        return null;
+        boolean confirm = false;
+        if (confirm) {
+            return receita;
+        } else {
+            return null;
+        }
     }
 }
