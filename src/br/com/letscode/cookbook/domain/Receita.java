@@ -23,49 +23,37 @@ public class Receita {
         this.categoria = origem.categoria;
         this.tempoPreparo = origem.tempoPreparo;
         this.rendimento = origem.rendimento;
-        this.ingredientes = new ArrayList<>(origem.ingredientes);
-        this.preparo = new ArrayList<>(origem.preparo);
+        if (origem.ingredientes != null) {
+            this.ingredientes = new ArrayList<>(origem.ingredientes);
+        } else {
+            this.ingredientes = new ArrayList<>();
+        }
+        if (origem.preparo != null) {
+            this.preparo = new ArrayList<>(origem.preparo);
+        } else {
+            this.preparo = new ArrayList<>();
+        }
     }
 
-    public String getNome() {
-        return nome;
-    }
+    public String getNome() { return nome; }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
+    public Categoria getCategoria() { return categoria; }
 
-    public double getTempoPreparo() {
-        return tempoPreparo;
-    }
+    public double getTempoPreparo() { return tempoPreparo; }
 
-    public Rendimento getRendimento() {
-        return rendimento;
-    }
+    public Rendimento getRendimento() { return rendimento; }
 
-    public List<Ingrediente> getIngredientes() {
-        return ingredientes;
-    }
+    public List<Ingrediente> getIngredientes() { return ingredientes; }
 
-    public List<String> getPreparo() {
-        return preparo;
-    }
+    public List<String> getPreparo() { return preparo; }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public void setNome(String nome) { this.nome = nome; }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 
-    public void setTempoPreparo(double tempoPreparo) {
-        this.tempoPreparo = tempoPreparo;
-    }
+    public void setTempoPreparo(double tempoPreparo) { this.tempoPreparo = tempoPreparo; }
 
-    public void setRendimento(Rendimento rendimento) {
-        this.rendimento = rendimento;
-    }
+    public void setRendimento(Rendimento rendimento) { this.rendimento = rendimento; }
 
     @Override
     public String toString() {

@@ -14,6 +14,10 @@ public class ConsoleUtils {
         return getUserOption(question);
     }
 
+    public static void setUserInput(String message) {
+        System.out.printf(message);
+    }
+
     public static String getUserOption(String message, String... options) {
         System.out.printf(message.concat("%n# : "));
         Scanner scanner = new Scanner(System.in);

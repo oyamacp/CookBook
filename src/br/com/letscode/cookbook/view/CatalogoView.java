@@ -22,33 +22,40 @@ public class CatalogoView {
         }
     }
 
+    public void view() {
+        do {
+            //Exibe o layout montado.
+            new ReceitaView(ative).fullView(System.out);
+            //Exibe o menu de opções.
+        } while (showMenu());
+    }
+
     private boolean showMenu() {
         String[] options = new String[7];
-        StringBuilder sb = new StringBuilder("#".repeat(100));
+        StringBuilder sb = new StringBuilder("#".repeat(99));
 
-        sb.append("%n").append("  + : Adicionar  %n");
+        sb.append("%n").append("+ Adicionar   ");
         options[0] = "+";
 
         if (ative != null) {
-            sb.append("  E : Editar  %n");
+            sb.append("E Editar   ");
             options[1] = "E";
-            sb.append("  - : Remover  %n");
+            sb.append("- Remover   ");
             options[2] = "-";
         }
 
         if (controller.getTotal() > 1) {
-            sb.append("  P : Próxima  %n");
+            sb.append("P Próxima   ");
             options[3] = "P";
-            sb.append("  A : Anterior  %n");
+            sb.append("A Anterior   ");
             options[4] = "A";
-            sb.append("  L : Localizar  %n");
+            sb.append("L Localizar   ");
             options[5] = "L";
         }
 
-        sb.append("  # ").append("# ".repeat(48)).append("%n");
-        sb.append("  X : Sair  %n");
+        sb.append("X Sair %n");
         options[6] = "X";
-        sb.append("#".repeat(100)).append("%n");
+        sb.append("#".repeat(99)).append("%n");
 
         String opcao = ConsoleUtils.getUserOption(sb.toString(), options).toUpperCase(Locale.getDefault());
         switch (opcao) {
@@ -57,6 +64,9 @@ public class CatalogoView {
                 break;
             case "-":
                 del();
+                break;
+            case "E":
+                edit();
                 break;
             case "P":
                 next();
@@ -74,72 +84,6 @@ public class CatalogoView {
                 System.out.println("Opção inválida!!!");
         }
         return true;
-    }
-
-    private void find() {
-        //Capturar o nome da receita.
-        String name = ConsoleUtils.getUserInput("Qual o nome da receita que deseja localizar?");
-        //Procura no Catalogo a receita com o mesmo nome.
-        ative = controller.getReceita(name);
-        currentIndex = 0;
-    }
-
-    private void next() {
-        //Se estiver com uma receita ativa, ativa a próxima receita.
-        //Se NÃO estiver com uma receita ativa, ativa a primeira receita.
-        if (ative != null) currentIndex++;
-        try {
-            ative = controller.getReceita(currentIndex);
-        } catch (IllegalArgumentException e) {
-            ative = null;
-        }
-        if (ative == null) {
-            currentIndex = 1;
-            ative = controller.getReceita(currentIndex);
-        }
-    }
-
-    private void previous() {
-        //Se estiver com uma receita ativa, ativa a anterior.
-        //Se NÃO estiver com uma receita ativa, ativa a última receita.
-        if (ative != null) currentIndex--;
-        try {
-            ative = controller.getReceita(currentIndex);
-        } catch (IllegalArgumentException e) {
-            ative = null;
-        }
-        if (ative == null) {
-            currentIndex = controller.getTotal();
-            ative = controller.getReceita(currentIndex);
-        }
-    }
-
-    private void del() {
-        //Se NÃO estiver com uma receita ativa, mostra mensagem.
-        //Se estiver com uma receita ativa, confirma a operação.
-        String opcao = ConsoleUtils.getUserOption("Você deseja realmente APAGAR a receita " + ative.getNome() + "?\nS - Sim   N - Não", "S", "N");
-        //Se confirmar, solicita ao Catalogo apagar a receita.
-        if (opcao.equalsIgnoreCase("S")) {
-            controller.del(ative.getNome());
-            ative = null;
-            if (controller.getTotal() > 0) {
-                currentIndex = 0;
-                next();
-            }
-        }
-    }
-
-    private void edit() {
-        //Se NÃO estiver com uma receita ativa, mostra mensagem.
-        //Se estiver com uma receita ativa, abra a tela de edição.
-        Receita nova = new EditReceitaView(ative).edit();
-        if (nova != null) {
-            controller.del(ative.getNome());
-            controller.add(nova);
-            //Torna a nova receita a ativa.
-            ative = nova;
-            currentIndex = 0;
-        }
     }
 
     private void add() {
@@ -185,11 +129,63 @@ public class CatalogoView {
         }
     }
 
-    public void view() {
-        do {
-            //Exibe o layout montado.
-            new ReceitaView(ative).fullView(System.out);
-            //Exibe o menu de opções.
-        } while (showMenu());
+    private void edit() {
+        String name = ative.getNome();
+        Categoria categoria = ative.getCategoria();
+        Receita nova = new EditReceitaView(new Receita(name, categoria)).edit();
+        ative = nova;
+    }
+
+    private void del() {
+        //Se NÃO estiver com uma receita ativa, mostra mensagem.
+        //Se estiver com uma receita ativa, confirma a operação.
+        String opcao = ConsoleUtils.getUserOption("Você deseja realmente APAGAR a receita " + ative.getNome() + "?\nS - Sim   N - Não", "S", "N");
+        //Se confirmar, solicita ao Catalogo apagar a receita.
+        if (opcao.equalsIgnoreCase("S")) {
+            controller.del(ative.getNome());
+            ative = null;
+            if (controller.getTotal() > 0) {
+                currentIndex = 0;
+                next();
+            }
+        }
+    }
+
+    private void next() {
+        //Se estiver com uma receita ativa, ativa a próxima receita.
+        //Se NÃO estiver com uma receita ativa, ativa a primeira receita.
+        if (ative != null) currentIndex++;
+        try {
+            ative = controller.getReceita(currentIndex);
+        } catch (IllegalArgumentException e) {
+            ative = null;
+        }
+        if (ative == null) {
+            currentIndex = 1;
+            ative = controller.getReceita(currentIndex);
+        }
+    }
+
+    private void previous() {
+        //Se estiver com uma receita ativa, ativa a anterior.
+        //Se NÃO estiver com uma receita ativa, ativa a última receita.
+        if (ative != null) currentIndex--;
+        try {
+            ative = controller.getReceita(currentIndex);
+        } catch (IllegalArgumentException e) {
+            ative = null;
+        }
+        if (ative == null) {
+            currentIndex = controller.getTotal();
+            ative = controller.getReceita(currentIndex);
+        }
+    }
+
+    private void find() {
+        //Capturar o nome da receita.
+        String name = ConsoleUtils.getUserInput("Qual o nome da receita que deseja localizar?");
+        //Procura no Catalogo a receita com o mesmo nome.
+        ative = controller.getReceita(name);
+        currentIndex = 0;
     }
 }
